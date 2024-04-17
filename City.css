@@ -1,0 +1,9 @@
+.City{
+    width: 50%;
+    background-color: aquamarine;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px auto;;
+}

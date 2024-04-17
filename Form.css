@@ -1,0 +1,14 @@
+.Form{
+    margin: 0 auto;
+    margin-top: 20px;
+    width: 80%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.addbtn:hover{
+    background-color: rgb(90, 209, 90);
+}
