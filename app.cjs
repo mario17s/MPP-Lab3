@@ -2,6 +2,8 @@
 //import cors from 'cors'
 
 const express = require('express');
+const countryjs = require('countryjs');
+const { faker } = require('@faker-js/faker');
 const app = express(); 
 const cors = require('cors');
 app.use(express.json());
@@ -34,6 +36,8 @@ let citiesList = [
     
 ]
 
+let indexes = []
+
 
 app.listen(8081, () =>{ 
     console.log("Listening...");
@@ -45,7 +49,20 @@ app.get('/', (req, res) => {
         if (err) {
         console.error('Error executing SELECT query:', err);
         } else {
-        //console.log('Query result:', result.rows);
+        console.log('Query result:', result.rows);
+        countriesList = result.rows;
+        res.status(200).send(countriesList);
+        }
+    });
+})
+
+app.get('/6', (req, res) => {
+    //if(countriesList.length === 0)
+    pool.query('SELECT * FROM Countries LIMIT 6', (err, result) => {
+        if (err) {
+        console.error('Error executing SELECT query:', err);
+        } else {
+        console.log('Query result:', result.rows);
         countriesList = result.rows;
         res.status(200).send(countriesList);
         }
@@ -93,6 +110,7 @@ app.get('/:idd', (req, res) => {
     res.status(200).send(countriesList.filter(c => c.id == idx));
 })
 
+
 app.post('/add', (req, res) => {
     let country = req.body;
     console.log(req.body);
@@ -138,6 +156,21 @@ app.delete(`/del/:idx`, (req, res) => {
         }
     });
    
+})
+
+app.post('/fake/city', (req, res) => {
+    let fakers = req.body;
+    for(let f of fakers)
+        pool.query('insert into Cities(id,name,cid) values($1, $2, $3)', 
+        [f.id, f.name, f.cid], (err, result) => {
+        if (err) {
+        console.error('Error executing INSERT query:', err);
+        } else {
+        console.log('Query result:', result.rows);
+        
+        }
+    });
+    res.status(201).sendStatus(201);
 })
 
 app.delete(`/c/del/:idx`, (req, res) => {
